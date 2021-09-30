@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { lazy, Suspense, useEffect } from 'react';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect,
+} from 'react-router-dom';
+import Loading from './components/shared/Loading/Loading';
+import ScrollToTop from './ScrollToTop';
+import './App.scss';
+
+
+const Home = lazy(() => import('./pages/Home/Home'));
+
 
 function App() {
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+    <Suspense fallback={<Loading />}>
+      <ScrollToTop />
+        <Switch>
+        <Route exact path='/' component={Home} />
+        <Redirect to='/' />
+      </Switch>
+    </Suspense>
+  </Router>
   );
 }
 
 export default App;
+
